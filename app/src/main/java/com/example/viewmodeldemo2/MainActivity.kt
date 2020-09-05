@@ -3,6 +3,7 @@ package com.example.viewmodeldemo2
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.viewmodeldemo2.databinding.ActivityMainBinding
 
@@ -24,7 +25,11 @@ class MainActivity : AppCompatActivity() {
         viewModelFactory = MainActivityViewModelFactory(125)
         viewModel = ViewModelProvider(this, viewModelFactory).get(MainActivityViewModel::class.java)
 
-        binding.textView.text = viewModel.getSum().toString()
+        viewModel.totalData.observe(this, Observer {
+            binding.textView.text = it.toString()
+        })
+
+        //binding.textView.text = viewModel.getSum().toString()
 
         binding.button.setOnClickListener {
             /*var str1 = binding.textView.text.toString()
@@ -35,7 +40,7 @@ class MainActivity : AppCompatActivity() {
             binding.textView.text = num3.toString()*/
 
             viewModel.setSum(binding.editText.text.toString().toInt())
-            binding.textView.text = viewModel.getSum().toString()
+            //binding.textView.text = viewModel.getSum().toString()
 
         }
     }
